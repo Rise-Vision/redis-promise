@@ -14,6 +14,9 @@ module.exports = {
       return {...obj, [el]: util.promisify(client[el].bind(client))};
     }, {});
   },
+  close() {
+    client.quit();
+  },
   setAdd(key, vals) {
     if (!Array.isArray(vals)) {throw Error("expected array");}
     return promisified.sadd(key, ...vals);
