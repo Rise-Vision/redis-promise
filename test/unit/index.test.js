@@ -11,15 +11,11 @@ describe("REDIS", ()=>{
     }, {}));
   });
 
-  it("adds a watchlist entry", ()=>{
+  it("adds an entry to a hash", ()=>{
     assert(redis.patchHash());
   });
 
   it("adds values to a set", ()=>{
     assert(redis.setAdd("mykey", ["val1", "val2"]));
-  });
-
-  it("updates a file metadata entry", ()=>{
-    redis.patchHash();
   });
 });
