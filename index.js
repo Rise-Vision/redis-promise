@@ -2,7 +2,7 @@ const util = require("util");
 const redis = require("redis");
 
 let client = null;
-let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall"];
+let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall", "exists"];
 
 module.exports = {
   initdb(dbclient = null, redisHost) {
@@ -51,5 +51,13 @@ module.exports = {
   },
   eraseEntireDb() {
     return promisified.flushall();
+  },
+  touchKey(key, {expirySeconds, expiryMillis} = {}) {
+    if (expiryMillis) {return promisified.set(key, '', "PX", expiryMillis);}
+    if (expirySeconds) {return promisified.set(key, '', "EX", expirySeconds);}
+    return promisified.set(key, '');
+  },
+  peekKey(key) {
+    return promisified.exists(key);
   }
 };
