@@ -2,7 +2,7 @@ const util = require("util");
 const redis = require("redis");
 
 let client = null;
-let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall", "exists"];
+let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall", "exists", "incr"];
 
 module.exports = {
   initdb(dbclient = null, redisHost) {
@@ -59,5 +59,8 @@ module.exports = {
   },
   peekKey(key) {
     return promisified.exists(key);
+  },
+  increment(key) {
+    return promisified.incr(key);
   }
 };
