@@ -62,5 +62,8 @@ module.exports = {
   },
   increment(key) {
     return promisified.incr(key);
+  },
+  getClient() {
+    return client;
   }
 };
