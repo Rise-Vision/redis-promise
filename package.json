@@ -1,6 +1,6 @@
 {
   "name": "redis-promise",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Promisification of Redis functions",
   "main": "index.js",
   "scripts": {

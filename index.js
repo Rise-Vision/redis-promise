@@ -2,7 +2,7 @@ const util = require("util");
 const redis = require("redis");
 
 let client = null;
-let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall", "exists", "incr"];
+let promisified = ["get", "del", "set", "sadd", "srem", "hmset", "hgetall", "hdel", "smembers", "flushall", "exists", "incr", "lpush", "lrange", "ltrim"];
 
 module.exports = {
   initdb(dbclient = null, redisHost) {
@@ -62,6 +62,20 @@ module.exports = {
   },
   increment(key) {
     return promisified.incr(key);
+  },
+  pushLeft(key, vals) {
+    if (!Array.isArray(vals)) {throw Error("expected array");}
+
+    // reverse copy of input array, so they get pushed in array order
+    const reversed = [].concat(vals).reverse();
+
+    return promisified.lpush(key, ...reversed);
+  },
+  trimLeft(key, start, stop) {
+    return promisified.ltrim(key, start, stop);
+  },
+  getListRange(key, start, stop) {
+    return promisified.lrange(key, start, stop);
   },
   getClient() {
     return client;
